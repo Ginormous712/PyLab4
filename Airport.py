@@ -1,6 +1,8 @@
 import MySQLdb
+import Pyro4
 
 
+@Pyro4.expose
 class Airport():
     def __init__(self, url, user, password):
         self.__db = MySQLdb.connect(url, user, password, "airport")
@@ -87,7 +89,7 @@ class Airport():
             self.cursor.execute(sql)
             results = self.cursor.fetchall()
 
-            return (" === All flights referenced to Airline with ID: {airline_id} === \n"
+            return (f" === All flights referenced to Airline with ID: {airline_id} === \n"
                     + Airport.print_flights_str(results))
         except MySQLdb.Error as e:
             return e
@@ -171,7 +173,7 @@ class Airport():
         try:
             self.cursor.execute(sql)
             results = self.cursor.fetchall()
-            return " === Airline with ID: {id} === \n" + Airport.print_airlines_str(results)
+            return f" === Airline with ID: {id} === \n" + Airport.print_airlines_str(results)
         except MySQLdb.Error as e:
             print(f"Error: {e}")
             print(f"Airline with ID: {id} is not found")
@@ -185,7 +187,7 @@ class Airport():
         try:
             self.cursor.execute(sql)
             results = self.cursor.fetchall()
-            return " === Flight with ID: {id} === \n" + Airport.print_flights_str(results)
+            return f" === Flight with ID: {id} === \n" + Airport.print_flights_str(results)
         except MySQLdb.Error as e:
             print(f"Error: {e}")
             print(f"Flight with ID: {id} is not found")
